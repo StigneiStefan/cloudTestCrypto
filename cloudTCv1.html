@@ -1,0 +1,484 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://www.w3schools.com/w3css/3/w3.css">
+    <title>FundotXCutie(f.xc)</title>
+    <script src='waxjs.js'></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.4.0/p5.min.js"></script>
+    <script src='https://cdnjs.cloudflare.com/ajax/libs/phaser/3.55.2/phaser.min.js'></script>
+    <script defer src='sketch.js'></script>
+    <script src='script.js'></script>
+</head>
+<body style="background-color: black;color: whitesmoke;">
+ <!-- Navigation -->
+<nav class="w3-bar w3-black">
+  <a href="#home" class="w3-button w3-bar-item">Home</a>
+  <a href="#nfts" class="w3-button w3-bar-item">NFTs</a>
+  <a href="#links" class="w3-button w3-bar-item">Links</a>
+  <a href="#about" class="w3-button w3-bar-item">About</a>
+  <button id="login" onclick=login() >WAX Login</button>
+  <h2 id="response"></h2>
+</nav>
+
+<!-- Slide Show -->
+<!-- <section>
+  <img class="mySlides" src="INSERTSTUFF" style="width:100%">
+  <img class="mySlides" src="insertSutff2" style="width:100%">
+  <img class="mySlides" src="img_chicago.gif" style="width:100%">
+</section> -->
+    <p>site version 2021.7.13{ipfs/waxp/web3/css/js/current nft market trends}</p>
+    <h1 style="background-color: lightpink;color:slategray">💖FundotXCutie🌈</h1>
+    <h1 style="background-color: rgb(215, 255, 182);color:slategray">... a WAXP art journey alongside Stefan Stignei</h1>
+    <p style="font-size: 160%;"><a href="https://wax.atomichub.io/market?collection_name=fundotxcutie">Purchase NFTs</a></p>
+    <p style="font-size: 160%;"><a href="https://wax.atomichub.io/explorer/collection/fundotxcutie">Explore Collection</a></p>
+    <h2><a href="https://neftyblocks.com/c/fundotxcutie">Packs/Drops</a></h2>
+    <h2><a href="https://neftyblocks.com/c/fundotxcutie/packs">Unpack</a></h2>
+
+<br><br>
+  <h2>UPCOMMING PROJECTS</h2>
+<br><br>
+  <h2>Series 2 (September 10 2021 unpack date)</h2>
+<p style="font-size: 90%;"><a href="https://wax.bloks.io/transaction/b01e08bf63474c295eb6b7eaee12115637f0d35ad93113929e40d45ddc32b025?tab=traces">Celebrating 364 days of sales on WAX, Series 3 launches on September 2022</a></p>
+<br> <h2>mom&son.CryptoShow (Streaming Soon)</h2>
+<p style="font-size: 90%;"><a href="https://www.eosstudio.io/">Milestone Objective Episode 99, assist us build a mom friendly smart contract</a></p>
+<br> <h2>San Salvador Smart City(TBD)</h2>
+<p style="font-size: 90%;"><a href="https://wax.atomichub.io/market?collection_name=fundotxcutie&match=salvador">Explore San Salvador as it adopts Bitcoin</a></p>
+
+<br>
+
+<p id= 'between1'></p>
+<h2>ipfs/waxjs/html Game (December 2021/Q1 2022 pre-alpha soft launch)</h2>
+<p></p>
+    
+    <script>
+      const wax = new waxjs.WaxJS('https://wax.greymass.com');
+      // const wax = new waxjs.WaxJS('http://localhost:8888', null, null, true, null, 'http://all-access.wax.test:8113', 'http://api-idm.wax.test/v1/accounts/auto-accept/');
+    
+      async function login() {
+        try {
+          const userAccount = await wax.login();
+          document.getElementById('response').append(userAccount,);
+        } catch(e) {
+          document.getElementById('response').append(e.message);
+        }
+      }
+    
+      async function transfer() {
+        if(!wax.api) {
+          return document.getElementById('response').append('* Login first *');
+        }
+    
+        try {
+          const result = await wax.api.transact({
+            actions: [ {
+              account: 'eosio.token',
+              name: 'transfer',
+              authorization: [{
+                actor: wax.userAccount,
+                permission: 'active',
+              }],
+              data: {
+                from: wax.userAccount,
+                to: 'x4iqw.wam',
+                quantity: '0.19190000 WAX',
+                memo: 'test send ' + Math.floor((Math.random() * 1000000))
+              },
+            }]
+          }, {
+            blocksBehind: 3,
+            expireSeconds: 30
+          });
+          document.getElementById('outcome').append(JSON.stringify(result))
+        } catch(e) {
+          document.getElementById('outcome').append(e.message);
+        }
+      }
+      async function delegate() {
+        if(!wax.api) {
+          return document.getElementById('response').append('* Login first *');
+        }
+    
+        try {
+          const result = await wax.api.transact({
+            actions: [{
+              account: 'eosio',
+              name: 'delegatebw',
+              authorization: [{
+                actor: wax.userAccount,
+                permission: 'active',
+              }],
+              data: {
+                from: wax.userAccount,
+                receiver: 'x4iqw.wam',
+                stake_net_quantity: '20.19190000 WAX',
+                stake_cpu_quantity: '20.19190000 WAX',
+                transfer: false,
+              },
+            },
+        ]
+          }, {
+            blocksBehind: 3,
+            expireSeconds: 30
+          });
+          document.getElementById('outcome').append(JSON.stringify(result))
+        } catch(e) {
+          document.getElementById('outcome').append(e.message);
+        }
+      };
+
+var config = {
+    type: Phaser.WEBGL,
+    width: 512,
+    height: 512,
+    backgroundColor: '#bffc00',
+    parent: 'phaser-example',
+    scene: {
+        preload: preload,
+        create: create,
+        update: update
+    }
+};
+
+var snake;
+var food;
+var cursors;
+
+//  Direction consts
+var UP = 0;
+var DOWN = 1;
+var LEFT = 2;
+var RIGHT = 3;
+
+var game = new Phaser.Game(config);
+
+function preload ()
+{
+    this.load.image('food', 'assets/games/snake/food.png');
+    this.load.image('body', 'assets/games/snake/body.png');
+}
+
+function create ()
+{
+    var Food = new Phaser.Class({
+
+        Extends: Phaser.GameObjects.Image,
+
+        initialize:
+
+        function Food (scene, x, y)
+        {
+            Phaser.GameObjects.Image.call(this, scene)
+
+            this.setTexture('food');
+            this.setPosition(x * 16, y * 16);
+            this.setOrigin(0);
+
+            this.total = 0;
+
+            scene.children.add(this);
+        },
+
+        eat: function ()
+        {
+            this.total++;
+        }
+
+    });
+
+    var Snake = new Phaser.Class({
+
+        initialize:
+
+        function Snake (scene, x, y)
+        {
+            this.headPosition = new Phaser.Geom.Point(x, y);
+
+            this.body = scene.add.group();
+
+            this.head = this.body.create(x * 16, y * 16, 'body');
+            this.head.setOrigin(0);
+
+            this.alive = true;
+
+            this.speed = 100;
+
+            this.moveTime = 0;
+
+            this.tail = new Phaser.Geom.Point(x, y);
+
+            this.heading = RIGHT;
+            this.direction = RIGHT;
+        },
+
+        update: function (time)
+        {
+            if (time >= this.moveTime)
+            {
+                return this.move(time);
+            }
+        },
+
+        faceLeft: function ()
+        {
+            if (this.direction === UP || this.direction === DOWN)
+            {
+                this.heading = LEFT;
+            }
+        },
+
+        faceRight: function ()
+        {
+            if (this.direction === UP || this.direction === DOWN)
+            {
+                this.heading = RIGHT;
+            }
+        },
+
+        faceUp: function ()
+        {
+            if (this.direction === LEFT || this.direction === RIGHT)
+            {
+                this.heading = UP;
+            }
+        },
+
+        faceDown: function ()
+        {
+            if (this.direction === LEFT || this.direction === RIGHT)
+            {
+                this.heading = DOWN;
+            }
+        },
+
+        move: function (time)
+        {
+            /**
+            * Based on the heading property (which is the direction the pgroup pressed)
+            * we update the headPosition value accordingly.
+            * 
+            * The Math.wrap call allow the snake to wrap around the screen, so when
+            * it goes off any of the sides it re-appears on the other.
+            */
+            switch (this.heading)
+            {
+                case LEFT:
+                    this.headPosition.x = Phaser.Math.Wrap(this.headPosition.x - 1, 0, 40);
+                    break;
+
+                case RIGHT:
+                    this.headPosition.x = Phaser.Math.Wrap(this.headPosition.x + 1, 0, 40);
+                    break;
+
+                case UP:
+                    this.headPosition.y = Phaser.Math.Wrap(this.headPosition.y - 1, 0, 30);
+                    break;
+
+                case DOWN:
+                    this.headPosition.y = Phaser.Math.Wrap(this.headPosition.y + 1, 0, 30);
+                    break;
+            }
+
+            this.direction = this.heading;
+
+            //  Update the body segments and place the last coordinate into this.tail
+            Phaser.Actions.ShiftPosition(this.body.getChildren(), this.headPosition.x * 16, this.headPosition.y * 16, 1, this.tail);
+
+            //  Check to see if any of the body pieces have the same x/y as the head
+            //  If they do, the head ran into the body
+
+            var hitBody = Phaser.Actions.GetFirst(this.body.getChildren(), { x: this.head.x, y: this.head.y }, 1);
+
+            if (hitBody)
+            {
+                console.log('dead');
+
+                this.alive = false;
+
+                return false;
+            }
+            else
+            {
+                //  Update the timer ready for the next movement
+                this.moveTime = time + this.speed;
+
+                return true;
+            }
+        },
+
+        grow: function ()
+        {
+            var newPart = this.body.create(this.tail.x, this.tail.y, 'body');
+
+            newPart.setOrigin(0);
+        },
+
+        collideWithFood: function (food)
+        {
+            if (this.head.x === food.x && this.head.y === food.y)
+            {
+                this.grow();
+
+                food.eat();
+
+                //  For every 5 items of food eaten we'll increase the snake speed a little
+                if (this.speed > 20 && food.total % 5 === 0)
+                {
+                    this.speed -= 5;
+                }
+
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        },
+
+        updateGrid: function (grid)
+        {
+            //  Remove all body pieces from valid positions list
+            this.body.children.each(function (segment) {
+
+                var bx = segment.x / 16;
+                var by = segment.y / 16;
+
+                grid[by][bx] = false;
+
+            });
+
+            return grid;
+        }
+
+    });
+
+    food = new Food(this, 3, 4);
+
+    snake = new Snake(this, 18, 8);
+
+    //  Create our keyboard controls
+    cursors = this.input.keyboard.createCursorKeys();
+}
+
+function update (time, delta)
+{
+    if (!snake.alive)
+    {
+        return;
+    }
+
+    /**
+    * Check which key is pressed, and then change the direction the snake
+    * is heading based on that. The checks ensure you don't double-back
+    * on yourself, for example if you're moving to the right and you press
+    * the LEFT cursor, it ignores it, because the only valid directions you
+    * can move in at that time is up and down.
+    */
+    if (cursors.left.isDown)
+    {
+        snake.faceLeft();
+    }
+    else if (cursors.right.isDown)
+    {
+        snake.faceRight();
+    }
+    else if (cursors.up.isDown)
+    {
+        snake.faceUp();
+    }
+    else if (cursors.down.isDown)
+    {
+        snake.faceDown();
+    }
+
+    if (snake.update(time))
+    {
+        //  If the snake updated, we need to check for collision against food
+
+        if (snake.collideWithFood(food))
+        {
+            repositionFood();
+        }
+    }
+}
+
+/**
+* We can place the food anywhere in our 40x30 grid
+* *except* on-top of the snake, so we need
+* to filter those out of the possible food locations.
+* If there aren't any locations left, they've won!
+*
+* @method repositionFood
+* @return {boolean} true if the food was placed, otherwise false
+*/
+function repositionFood ()
+{
+    //  First create an array that assumes all positions
+    //  are valid for the new piece of food
+
+    //  A Grid we'll use to reposition the food each time it's eaten
+    var testGrid = [];
+
+    for (var y = 0; y < 30; y++)
+    {
+        testGrid[y] = [];
+
+        for (var x = 0; x < 40; x++)
+        {
+            testGrid[y][x] = true;
+        }
+    }
+
+    snake.updateGrid(testGrid);
+
+    //  Purge out false positions
+    var validLocations = [];
+
+    for (var y = 0; y < 30; y++)
+    {
+        for (var x = 0; x < 40; x++)
+        {
+            if (testGrid[y][x] === true)
+            {
+                //  Is this position valid for food? If so, add it here ...
+                validLocations.push({ x: x, y: y });
+            }
+        }
+    }
+
+    if (validLocations.length > 0)
+    {
+        //  Use the RNG to pick a random food position
+        var pos = Phaser.Math.RND.pick(validLocations);
+
+        //  And place it
+        food.setPosition(pos.x * 16, pos.y * 16);
+
+        return true;
+    }
+    else
+    {
+        return false;
+    }
+}
+
+var p5js
+function setup() {
+    createCanvas(400, 400).parent('between1');
+  }
+  
+  function draw() {
+    if (mouseIsPressed) {
+      fill(0);
+    } else {
+      fill(255);
+    }
+    ellipse(mouseX, mouseY, 80, 80);
+  }
+   
+   </script>  
+    
+</body>
+</html>
